@@ -1,0 +1,46 @@
+# Figure dumps: game data with each figure's unique serial number - never publish
+*.dump
+*.dmp
+*.sky
+*.bin
+*.bak
+Skylander's Backups Completed/
+
+# Logs and recordings from a real console / real figures
+dev_logs/
+*.raw
+*.wav
+
+# Local snapshots and upload staging
+backups/
+github_upload/
+
+# Build output (the .prx is published as a GitHub Release asset instead)
+ps4_plugin/build/
+ps4_plugin/test/build/
+*.o
+*.elf
+*.oelf
+*.prx
+
+# Pictures from the games (extracted icons, previews) - never publish game art
+*.rgba
+*.ppm
+*.png
+*.pak
+*.arc
+*.bld
+*.igz
+*.ttf
+*.otf
+
+# Python
+__pycache__/
+*.pyc
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

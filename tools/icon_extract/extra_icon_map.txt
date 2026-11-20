@@ -1,0 +1,16 @@
+# Figure id, variant value (-1 = any), icon name - entries the Imaginators ToyData does not have.
+# Merged into ps4_plugin/source/icon_map.h by make_icon_map.py. An entry only gives a picture in a
+# game that ships a material of that name.
+#
+# SuperChargers trophies (handled in game code, no ToyData)
+3500 -1 Collection_Racepack_Air
+3501 -1 Collection_Racepack_Land
+3502 -1 Collection_Racepack_Sea
+3503 -1 Collection_Racepack_Kaos
+# Swap Force adventure packs, still shipped by SuperChargers
+3300 -1 Collection_Expansion_SheepWreckIsland
+3301 -1 Collection_Expansion_ClockTower
+# from the SuperChargers ToyData
+3474 -1 Collection_VillainVehicleThreatPack_Normal
+514 6145 Collection_GillRunt_Reposed
+514 10245 Collection_GillRunt_Reposed2013

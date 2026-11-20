@@ -37,3 +37,5 @@ int  portal_remove(int slot);
 int  portal_get_dump(int slot, uint8_t out[FIGURE_SIZE]);
 void portal_get_info(int slot, portal_slot_info *info);
 int  portal_is_active(void);
+// The slot's data was saved: forget that the game changed it.
+void portal_clear_dirty(int slot);

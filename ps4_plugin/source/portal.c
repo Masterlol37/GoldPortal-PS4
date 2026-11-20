@@ -257,3 +257,12 @@ int portal_is_active(void)
 {
     return g_active;
 }
+
+void portal_clear_dirty(int slot)
+{
+    if (slot < 0 || slot >= PORTAL_SLOTS)
+        return;
+    pthread_mutex_lock(&g_lock);
+    g_slots[slot].dirty = 0;
+    pthread_mutex_unlock(&g_lock);
+}

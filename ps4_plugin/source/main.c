@@ -26,12 +26,13 @@
 #include "http.h"
 #include "log.h"
 #include "audio.h"
+#include "overlay.h"
 #include <GoldHEN.h>      // sys_sdk_proc_info (title id)
 
 attr_public const char *g_pluginName    = "goldportal";
 attr_public const char *g_pluginDesc    = "Virtual Skylanders portal controlled over the network";
 attr_public const char *g_pluginAuth    = "you";
-attr_public uint32_t    g_pluginVersion = 0x0000010F;   // 1.15
+attr_public uint32_t    g_pluginVersion = 0x00000119;   // 1.25
 
 // Minimum time between two interrupt IN reports (us). Recorded from a real PS4
 // portal: its status counter advances about every 50-75 ms.
@@ -1003,6 +1004,17 @@ static int find_module(const char *name, int log_all)
     return found;
 }
 
+// For overlay.c
+int gp_install_hook(const char *sym, hook_rec *rec, void *addr, void *fn)
+{
+    return guarded_install(sym, rec, addr, fn);
+}
+
+int gp_find_module(const char *name)
+{
+    return find_module(name, 0);
+}
+
 static pthread_mutex_t g_usbd_lock = PTHREAD_MUTEX_INITIALIZER;
 static int g_usbd_done;
 
@@ -1078,8 +1090,11 @@ static void *usbd_watch_thread(void *arg)
 {
     (void)arg;
     log_new_modules(1);                                          // remember the startup set
+    int overlay_done = 0;
     for (int i = 0; i < 50 * 60 * 10 && !g_stop; i++) {          // every 20 ms, up to 10 minutes
         log_new_modules(0);
+        if (!overlay_done)
+            overlay_done = overlay_try_hook();
         if (!g_usbd_done)
             try_hook_usbd("watcher");
         usleep(20000);
@@ -1139,6 +1154,14 @@ static void *worker_thread(void *arg)
         }
     }
 
+    // The overlay hooks the display setup, so it has to be in place before the game
+    // registers its display buffers (usually seconds after start). Crash-guarded too.
+    if (!file_exists(GP_DATA_DIR "/nohook")) {
+        LOG("step: overlay (L3+R3 opens the figure menu)");
+        guard_check_previous_crash();
+        overlay_init(g_title_id);
+    }
+
     LOG("step: starting web server");
     if (http_server_start(GP_HTTP_PORT) != 0)
         LOG("ERROR: could not start HTTP server");
@@ -1151,8 +1174,6 @@ static void *worker_thread(void *arg)
         LOG("SAFE MODE (/data/goldportal/nohook exists): no hooks installed");
         return NULL;
     }
-    LOG("step: crash guard check");
-    guard_check_previous_crash();
     if (g_skip[0])
         notify("Goldportal: skipping hooks that crashed before (see skip.txt)");
 
@@ -1207,6 +1228,7 @@ int32_t attr_public plugin_unload(int32_t argc, const char *argv[])
     g_usbd_done = 1;
     g_stop = 1;        // stops the watcher thread
     g_completer_stop = 1;
+    overlay_stop();
     for (int i = 0; i < H_COUNT; i++)
         if (g_hooks[i].active) { g_hooks[i].active = 0; hook_remove(&g_hooks[i].rec); }
     LOG("goldportal unloaded");

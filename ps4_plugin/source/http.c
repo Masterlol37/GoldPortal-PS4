@@ -6,8 +6,11 @@
 //   POST /api/load?slot=N&name=X   body = raw 1024 byte .dump file
 //   POST /api/remove?slot=N        take the figure off the portal
 //   GET  /api/dump?slot=N          download the figure (including game writes)
+//   GET  /api/overlay              on-screen menu state (display buffer format, tiling)
+//   GET  /api/fb                   raw copy of the display buffer on screen
 #include "http.h"
 #include "portal.h"
+#include "overlay.h"
 #include "log.h"
 
 #include <stdio.h>
@@ -260,6 +263,19 @@ static void handle_client(int fd)
             LOG("removed slot %d", slot);
             respond_json(fd, 200, "{\"ok\":true}");
         }
+    } else if (strcmp(method, "GET") == 0 && strcmp(target, "/api/overlay") == 0) {
+        char json[512];
+        overlay_info_json(json, sizeof(json));
+        respond_json(fd, 200, json);
+    } else if (strcmp(method, "GET") == 0 && strcmp(target, "/api/fb") == 0) {
+        // Raw copy of the buffer on screen (pitch * height * 4 bytes), to work out its layout.
+        uint8_t *fb = NULL;
+        size_t n = 0;
+        if (overlay_fb_snapshot(&fb, &n) != 0)
+            respond_json(fd, 404, "{\"error\":\"display buffers unknown\"}");
+        else
+            respond(fd, 200, "application/octet-stream", fb, n);
+        free(fb);
     } else if (strcmp(method, "GET") == 0 && strcmp(target, "/api/dump") == 0) {
         int slot = query_slot(query);
         static uint8_t buf[FIGURE_SIZE];
