@@ -6,7 +6,7 @@ Play your Skylanders figures digitally on a PS4: a GoldHEN plugin makes the game
 
 ![The figure grid with filters](docs/menu_grid.png)
 
-**Tested and working:** Swap Force (CUSA00024), Trap Team (CUSA00697, including the trap slot and the portal speaker), SuperChargers (CUSA02180) and Imaginators (CUSA05158), on a PS4 with firmware 12.50 and GoldHEN.
+**Tested and working:** Swap Force (CUSA00024), Trap Team (CUSA00697, including the trap slot and the portal speaker), SuperChargers (CUSA02180) and Imaginators (CUSA05158), on a PS4 with firmware 14.02and GoldHEN.
 
 | Part | Folder | What it does |
 |---|---|---|
