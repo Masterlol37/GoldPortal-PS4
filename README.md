@@ -2,6 +2,10 @@
 
 Play your Skylanders figures digitally on a PS4: a GoldHEN plugin makes the game think a real Portal of Power is plugged in. Pick your `.dump` figure files in an **on-screen menu right in the game** (L3 + R3), or from a PC app or any web browser.
 
+![The figure menu over the Imaginators title screen](docs/menu_slots.png)
+
+![The figure grid with filters](docs/menu_grid.png)
+
 **Tested and working:** Swap Force (CUSA00024), Trap Team (CUSA00697, including the trap slot and the portal speaker), SuperChargers (CUSA02180) and Imaginators (CUSA05158), on a PS4 with firmware 12.50 and GoldHEN.
 
 | Part | Folder | What it does |
@@ -200,7 +204,7 @@ tools/
 
 ## Disclaimer
 pls if there is any error dont blame me instant i wanted to push it out fast so everyone can test it. i only got the europe games so feel free to reach out if you have ideas or see something that should not be like that.
-This is an unofficial fan project for preserving and playing figures you own. It is not affiliated with or endorsed by Activision, Toys for Bob, Vicarious Visions or Sony Interactive Entertainment. "Skylanders" and "Portal of Power" are trademarks of their respective owners. It contains no game code, figure data, pictures or other copyrighted assets: the menu pictures are read from the user's own game at run time, and the plugin only carries tables of figure IDs, icon names and texture hashes. Use at your own risk.
+This is an unofficial fan project for preserving and playing figures you own. It is not affiliated with or endorsed by Activision, Toys for Bob, Vicarious Visions or Sony Interactive Entertainment. "Skylanders" and "Portal of Power" are trademarks of their respective owners. It contains no game code, figure data, pictures or other copyrighted assets: the menu pictures are read from the user's own game at run time, and the plugin only carries tables of figure IDs, icon names and texture hashes. The screenshots in `docs/` show the plugin running on a real console; the game graphics in them belong to their owners. Use at your own risk.
 
 ## License
 

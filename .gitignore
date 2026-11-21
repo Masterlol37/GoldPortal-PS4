@@ -27,6 +27,7 @@ ps4_plugin/test/build/
 *.rgba
 *.ppm
 *.png
+!docs/*.png
 *.pak
 *.arc
 *.bld
